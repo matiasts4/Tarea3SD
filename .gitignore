@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+
+# Envs
+.env
+.env.*
+*/.env
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+
+# Logs
+*.log
+logs/
+
+# Bytecode cache
+*.pyc
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Docker
+**/docker-data/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Others
+*.sqlite3
+
+# Tarea 3: Hadoop Batch Analysis
+batch-analysis/results/*.png
+batch-analysis/results/*.csv
+batch-analysis/results/*.json
+batch-analysis/results/*.txt
+hadoop-batch-service/data/*.txt
+hadoop-batch-service/data/*.json

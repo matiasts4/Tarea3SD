@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- Framework de MapReduce (usar YARN) -->
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+        <description>Framework de ejecución para MapReduce</description>
+    </property>
+    
+    <!-- Configuración de memoria para Map tasks -->
+    <property>
+        <name>mapreduce.map.memory.mb</name>
+        <value>1024</value>
+        <description>Memoria para Map tasks</description>
+    </property>
+    
+    <!-- Configuración de memoria para Reduce tasks -->
+    <property>
+        <name>mapreduce.reduce.memory.mb</name>
+        <value>1024</value>
+        <description>Memoria para Reduce tasks</description>
+    </property>
+</configuration>

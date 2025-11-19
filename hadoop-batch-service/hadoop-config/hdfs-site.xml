@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- Factor de replicación (1 para modo pseudo-distribuido) -->
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+        <description>Factor de replicación de bloques en HDFS</description>
+    </property>
+    
+    <!-- Directorio del NameNode -->
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///opt/hadoop/hdfs/namenode</value>
+        <description>Directorio donde el NameNode almacena metadata</description>
+    </property>
+    
+    <!-- Directorio del DataNode -->
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///opt/hadoop/hdfs/datanode</value>
+        <description>Directorio donde el DataNode almacena bloques</description>
+    </property>
+    
+    <!-- Permisos (deshabilitado para desarrollo) -->
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+        <description>Deshabilitar verificación de permisos</description>
+    </property>
+</configuration>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <!-- Servicios auxiliares de YARN -->
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+        <description>Servicios auxiliares para MapReduce</description>
+    </property>
+    
+    <!-- Memoria total disponible para contenedores -->
+    <property>
+        <name>yarn.nodemanager.resource.memory-mb</name>
+        <value>4096</value>
+        <description>Memoria total para contenedores YARN</description>
+    </property>
+    
+    <!-- Memoria mínima por contenedor -->
+    <property>
+        <name>yarn.scheduler.minimum-allocation-mb</name>
+        <value>512</value>
+        <description>Memoria mínima por contenedor</description>
+    </property>
+    
+    <!-- Memoria máxima por contenedor -->
+    <property>
+        <name>yarn.scheduler.maximum-allocation-mb</name>
+        <value>2048</value>
+        <description>Memoria máxima por contenedor</description>
+    </property>
+</configuration>
