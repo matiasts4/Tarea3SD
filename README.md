@@ -314,18 +314,6 @@ Para cumplir con los requisitos del proyecto, debes realizar comparaciones exper
 
 ---
 
-## Documentación Adicional
-
-### Tarea 1
-- `run_experiments.sh` - Script automatizado para experimentación
-- `analyze_results.py` - Análisis y generación de gráficos
-
-
-### Estado del Sistema
-✅ **Tarea 1:** Sistema de caché completamente funcional con 3 políticas  
-✅ **Tarea 2:** Pipeline asíncrono con Kafka y Flink operativo y verificado
-
-
 ---
 
 ## Tarea 3: Análisis Batch con Hadoop y Pig
@@ -589,16 +577,6 @@ Ambos enfoques coexisten y se complementan:
 - **Flink**: Decisiones inmediatas sobre datos individuales
 - **Hadoop**: Insights profundos sobre datos históricos
 
----
-
-## Documentación Adicional
-
-### Tarea 3
-- `REQUERIMIENTOS_TAREA3.md` - Requerimientos exhaustivos
-- `PLAN_IMPLEMENTACION_TAREA3.md` - Plan de implementación detallado
-- `CHANGELOG_TAREA3.md` - Registro de cambios
-- `RESUMEN_EJECUTIVO_TAREA3.md` - Visión general
-- `INDICE_TAREA3.md` - Guía de navegación
 
 ---
 
