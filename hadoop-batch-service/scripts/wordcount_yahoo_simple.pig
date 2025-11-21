@@ -1,4 +1,4 @@
--- Script Pig para Análisis de Vocabulario - Yahoo! Answers
+-- Script Pig para Análisis de Vocabulario - Yahoo! Answers (Versión Simplificada)
 -- Tarea 3: Análisis Batch con Hadoop y Pig
 
 -- Cargar datos de respuestas de Yahoo!
@@ -14,23 +14,13 @@ clean_words = FOREACH words GENERATE REPLACE(word, '[^a-záéíóúñü]', '') A
 -- Filtrar palabras vacías y palabras muy cortas (menos de 3 caracteres)
 filtered = FILTER clean_words BY SIZE(word) >= 3;
 
--- Cargar stopwords
-stopwords_es = LOAD '/stopwords/stopwords_es.txt' AS (stopword:chararray);
-stopwords_en = LOAD '/stopwords/stopwords_en.txt' AS (stopword:chararray);
-stopwords = UNION stopwords_es, stopwords_en;
-
--- Filtrar stopwords usando LEFT JOIN
-joined = JOIN filtered BY word LEFT OUTER, stopwords BY stopword USING 'replicated';
-no_stopwords = FILTER joined BY stopwords::stopword IS NULL;
-final_words = FOREACH no_stopwords GENERATE filtered::word AS word;
-
 -- Agrupar por palabra
-grouped = GROUP final_words BY word;
+grouped = GROUP filtered BY word;
 
 -- Contar frecuencia de cada palabra
 wordcount = FOREACH grouped GENERATE 
     group AS word, 
-    COUNT(final_words) AS count;
+    COUNT(filtered) AS count;
 
 -- Ordenar por frecuencia (descendente)
 sorted = ORDER wordcount BY count DESC;

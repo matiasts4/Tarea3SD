@@ -47,6 +47,12 @@ echo ""
 # Esperar a que HDFS esté listo
 wait_for_hdfs
 
+# Salir del modo seguro de HDFS
+echo "[INFO] Verificando modo seguro de HDFS..."
+hdfs dfsadmin -safemode wait
+echo "[INFO] ✓ HDFS fuera de modo seguro"
+echo ""
+
 # Crear directorios en HDFS
 echo "[4/10] Creando directorios en HDFS..."
 hdfs dfs -mkdir -p /input
@@ -66,24 +72,40 @@ echo ""
 
 # Cargar datos a HDFS
 echo "[6/10] Cargando datos a HDFS..."
-hdfs dfs -put -f /app/data/yahoo_answers.txt /input/
-hdfs dfs -put -f /app/data/llm_answers.txt /input/
-hdfs dfs -put -f /app/scripts/stopwords_es.txt /stopwords/
-hdfs dfs -put -f /app/scripts/stopwords_en.txt /stopwords/
+echo "[INFO] Cargando yahoo_answers.txt..."
+hdfs dfs -put -f /app/data/yahoo_answers.txt /input/ 2>&1
+echo "[INFO] Cargando llm_answers.txt..."
+hdfs dfs -put -f /app/data/llm_answers.txt /input/ 2>&1
+echo "[INFO] Cargando stopwords_es.txt..."
+hdfs dfs -put -f /app/scripts/stopwords_es.txt /stopwords/ 2>&1
+echo "[INFO] Cargando stopwords_en.txt..."
+hdfs dfs -put -f /app/scripts/stopwords_en.txt /stopwords/ 2>&1
 echo "       ✓ Datos cargados a HDFS"
 echo ""
 
 # Verificar archivos en HDFS
 echo "[INFO] Verificando archivos en HDFS..."
+echo "[INFO] Contenido de /input/:"
 hdfs dfs -ls /input/
+echo "[INFO] Contenido de /stopwords/:"
 hdfs dfs -ls /stopwords/
+echo "[INFO] Verificando permisos:"
+hdfs dfs -ls -R / | grep -E "(input|stopwords)"
 echo ""
 
 # Ejecutar análisis Pig para Yahoo! Answers
 echo "[7/10] Ejecutando análisis Pig para Yahoo! Answers..."
-pig -x mapreduce /app/scripts/wordcount_yahoo.pig
+echo "[INFO] Copiando archivos de HDFS al sistema de archivos local para Pig..."
+mkdir -p /input /output /stopwords
+hdfs dfs -get /input/yahoo_answers.txt /input/
+hdfs dfs -get /stopwords/stopwords_es.txt /stopwords/
+hdfs dfs -get /stopwords/stopwords_en.txt /stopwords/
+echo "[INFO] Ejecutando Pig en modo local..."
+pig -x local -f /app/scripts/wordcount_yahoo_simple.pig
 if [ $? -ne 0 ]; then
     echo "[ERROR] Fallo en el análisis de Yahoo! Answers"
+    echo "[INFO] Revisando logs de Pig..."
+    cat /app/pig_*.log | tail -100
     exit 1
 fi
 echo "       ✓ Análisis de Yahoo! completado"
@@ -91,7 +113,10 @@ echo ""
 
 # Ejecutar análisis Pig para LLM Answers
 echo "[8/10] Ejecutando análisis Pig para LLM Answers..."
-pig -x mapreduce /app/scripts/wordcount_llm.pig
+echo "[INFO] Copiando archivo LLM de HDFS al sistema de archivos local..."
+hdfs dfs -get /input/llm_answers.txt /input/
+echo "[INFO] Ejecutando Pig en modo local..."
+pig -x local -f /app/scripts/wordcount_llm_simple.pig
 if [ $? -ne 0 ]; then
     echo "[ERROR] Fallo en el análisis de LLM Answers"
     exit 1
@@ -99,11 +124,12 @@ fi
 echo "       ✓ Análisis de LLM completado"
 echo ""
 
-# Descargar resultados de HDFS
-echo "[9/10] Descargando resultados de HDFS..."
-hdfs dfs -getmerge /output/yahoo_wordcount /app/results/yahoo_wordcount.txt
-hdfs dfs -getmerge /output/llm_wordcount /app/results/llm_wordcount.txt
-echo "       ✓ Resultados descargados"
+# Copiar resultados al directorio de resultados
+echo "[9/10] Copiando resultados..."
+# Los resultados ya están en /output/ (modo local), solo necesitamos copiarlos
+cat /output/yahoo_wordcount/part-r-00000 > /app/results/yahoo_wordcount.txt
+cat /output/llm_wordcount/part-r-00000 > /app/results/llm_wordcount.txt
+echo "       ✓ Resultados copiados"
 echo ""
 
 # Generar análisis y visualizaciones

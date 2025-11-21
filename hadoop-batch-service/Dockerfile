@@ -57,7 +57,12 @@ COPY hadoop-config/yarn-site.xml $HADOOP_CONF_DIR/yarn-site.xml
 
 # Configurar variables de entorno en hadoop-env.sh
 RUN echo "export JAVA_HOME=${JAVA_HOME}" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
-    echo "export HADOOP_HOME=${HADOOP_HOME}" >> $HADOOP_CONF_DIR/hadoop-env.sh
+    echo "export HADOOP_HOME=${HADOOP_HOME}" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_NAMENODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_DATANODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export HDFS_SECONDARYNAMENODE_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export YARN_RESOURCEMANAGER_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh && \
+    echo "export YARN_NODEMANAGER_USER=root" >> $HADOOP_CONF_DIR/hadoop-env.sh
 
 # Instalar dependencias Python para análisis
 RUN pip3 install --no-cache-dir psycopg2-binary pandas matplotlib seaborn wordcloud numpy matplotlib-venn

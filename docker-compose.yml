@@ -31,7 +31,7 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "9092:9092"
+      - "9094:9092"
 
   # Servicio de Base de Datos PostgreSQL
   db:
@@ -184,4 +184,6 @@ services:
 # Volúmenes nombrados para persistir datos
 volumes:
   postgres_data:
+    external: true
+    name: tarea2sd_postgres_data
   hadoop_data:
