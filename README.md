@@ -603,8 +603,6 @@ Ambos enfoques coexisten y se complementan:
 ---
 
 ### Estado del Sistema
-✅ **Tarea 1:** Sistema de caché completamente funcional con 3 políticas  
-✅ **Tarea 2:** Pipeline asíncrono con Kafka y Flink operativo y verificado  
-✅ **Tarea 3:** Sistema de análisis batch con Hadoop y Pig implementado
-#   T a r e a 3 S D  
- 
+ **Tarea 1:** Sistema de caché completamente funcional con 3 políticas  
+ **Tarea 2:** Pipeline asíncrono con Kafka y Flink operativo y verificado  
+ **Tarea 3:** Sistema de análisis batch con Hadoop y Pig implementado
